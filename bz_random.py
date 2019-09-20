@@ -5,6 +5,7 @@ import time
 import tkinter
 import tkinter.simpledialog
 import tkinter.font
+from PIL import Image, ImageTk
 
 
 def Get_HWND_DPI(window_handle):
@@ -59,7 +60,7 @@ for x in range(maxNumber):
     numbers.append(x)
 random.shuffle(numbers)
 
-defaultTitle = '2018 级西工大附中 - 上海交通大学宣讲活动抽奖器 by BugenZhao - 当前人数：'
+defaultTitle = '2018 级西工大附中 - 上海交通大学宣讲活动抽奖器 Lottery - 当前人数：'
 
 
 def getNextNumber():
@@ -88,7 +89,7 @@ class Application(tkinter.Tk):
                       tkinter.messagebox.showwarning(
                           title='提示', message='使用菜单中的 “退出” 来退出抽奖器'))
 
-        self.bgImage = tkinter.PhotoImage(file='bg2.png')
+        self.bgImage = ImageTk.PhotoImage(Image.open('bg2.png'))
         self.bgLabel = tkinter.Label(master=self, image=self.bgImage)
         self.bgLabel.pack(side='top')
 
@@ -188,8 +189,8 @@ class Application(tkinter.Tk):
             infoMessage = str(e)
 
         tkinter.messagebox.showinfo(
-            title='关于 bzRandom 抽奖器', message='build 190127, BugenZhao 2019.\n'
-            + '仅限 2018 届西工大附中 - 上海交通大学宣讲活动使用。\n'
+            title='关于 BZ Lottery 抽奖器', message='build 190127.190920, BugenZhao 2019.\n'
+            + '供 2018 级西工大附中 - 上海交通大学宣讲活动使用。\n'
             + infoMessage)
 
     def showNextNumber(self):
@@ -210,13 +211,14 @@ class Application(tkinter.Tk):
             width=3,
             command=self.makeUnabled(self.historyCnt)))
         self.histories[self.historyCnt].place(
-            relx=self.historyCnt*0.036, rely=1, anchor='sw')
+            relx=self.historyCnt*0.06, rely=1, anchor='sw')
         self.historyCnt += 1
 
     def makeUnabled(self, i):
         def do_makeUnabled():
             button = self.histories[i]
             button.config(text='000')
+            button.place_forget()
         return do_makeUnabled
 
     def allReset(self):
@@ -240,5 +242,5 @@ class Application(tkinter.Tk):
 if __name__ == '__main__':
     bzApplication = Application()
     MakeTkDPIAware(bzApplication)
-    print('终端调试窗口，请勿关闭')
+    print('DO NOT close the window.')
     bzApplication.mainloop()
